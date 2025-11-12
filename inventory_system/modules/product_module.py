@@ -14,6 +14,10 @@ def productpanel():
 
     window.configure(bg=bg_color)
     
+    Header=tk.Frame(window,bg='#d9d9d9',padx=20,pady=20)
+    Header.pack(fill='x')
+    tk.Label(Header,text="Product Management",font=('Ariel',25),bg='#d9d9d9').pack()
+    
     MainBody = tk.Frame(window, bg=bg_color, padx=20, pady=20)
     MainBody.pack(fill='both', expand=True)
     
@@ -98,6 +102,23 @@ def productpanel():
     Clear = tk.Button(Bttn, text="Clear",bg=button_bg, relief='raised', borderwidth=1,font=btn_font, width=btn_width)
     Clear.pack(side="left", padx=6)
     
+    ProductTable = tk.Frame(MainBody, bg=bg_color, bd=1)
+    ProductTable.grid(row=4, column=0, columnspan=5, pady=20, sticky='nsew')
+
+    product_detail = ['Product ID', 'Name', 'Category', 'Supplier', 'Cost Price', 'Stock']
+
+    for j, col_name in enumerate(product_detail):
+        tk.Label(
+            ProductTable,
+            text=col_name,
+            font=('Ariel', 12, 'bold'),
+            bg='#d9d9d9',
+            fg='black',
+            relief='ridge',
+            width=20,
+            height=2
+        ).grid(row=0, column=j,sticky='nsew')
+
     window.mainloop()
     
 productpanel()

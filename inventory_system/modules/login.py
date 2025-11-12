@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 from database.db_connection import create_connection 
-import mysql.connector # type: ignore
+from modules.dashboard import AdminDasboard
 
 def login(window):
     window.title("Login")
@@ -15,11 +15,16 @@ def login(window):
         conn=create_connection()
         cursor=conn.cursor()
         cursor.execute("Select * from Admin where username=%s And password=%s",(username,password))
-        result=cursor.fetchone()
+        USER=cursor.fetchone()
+        print(USER)
         conn.close()
         
-        if result:
+        if USER[3]=="admin":
             messagebox.showinfo("Login Success", "Welcome Admin!")
+            AdminDasboard(USER)
+            
+        elif USER[3]=='staff':
+            messagebox.showinfo("Login Success", "Welcome staff!")
         else:
             messagebox.showinfo("Login Failed", "Invalid username or password")
             

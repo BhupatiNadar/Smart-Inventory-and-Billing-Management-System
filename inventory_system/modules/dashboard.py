@@ -14,6 +14,9 @@ def AdminDasboard(USER):
         root=tk.Tk()
         login(root)
         root.mainloop()
+        
+    def ProductManagementfunc():
+        pass
     
     #-- End of function --
     
@@ -34,7 +37,7 @@ def AdminDasboard(USER):
     if USER[3]=='admin':
     
         # -- Button --
-        Product_management=tk.Button(MainBody,text="Product Management",height=3,width=25,font=("Ariel",20),bg="#e2e2e2",relief="flat",borderwidth=0)
+        Product_management=tk.Button(MainBody,text="Product Management",height=3,width=25,font=("Ariel",20),bg="#e2e2e2",relief="flat",borderwidth=0,command=ProductManagementfunc)
         Product_management.place(x=20,y=100)
 
         Product_management=tk.Button(MainBody,text="Supplier Management",height=3,width=25,font=("Ariel",20),bg="#e2e2e2",relief="flat",borderwidth=0)

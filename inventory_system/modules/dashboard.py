@@ -16,9 +16,14 @@ def AdminDasboard(USER):
         root.mainloop()
         
     def ProductManagementfunc():
-        from product_module import productpanel
+        AdminPanel.destroy()
+        from modules.product_module import productpanel
         productpanel()
     
+    def BillingAndPOSfunc():
+        AdminPanel.destroy()
+        from modules.billing_module import BillingAndPOS_panel
+        BillingAndPOS_panel()
     #-- End of function --
     
     
@@ -47,10 +52,10 @@ def AdminDasboard(USER):
         Product_management=tk.Button(MainBody,text="Customer Management",height=3,width=25,font=("Ariel",20),bg="#e2e2e2",relief="flat",borderwidth=0)
         Product_management.place(x=20,y=250)
 
-        Product_management=tk.Button(MainBody,text="Billing/POS",height=3,width=25,font=("Ariel",20),bg="#e2e2e2",relief="flat",borderwidth=0)
+        Product_management=tk.Button(MainBody,text="Billing/POS",height=3,width=25,font=("Ariel",20),bg="#e2e2e2",relief="flat",borderwidth=0,command=BillingAndPOSfunc)
         Product_management.place(x=500,y=250) 
     
-        Product_management=tk.Button(MainBody,text="Sales Reports",height=3,width=25,font=("Ariel",20),bg="#e2e2e2",relief="flat",borderwidth=0)
+        Product_management=tk.Button(MainBody,text="Sales Reports",height=3,width=25,font=("Ariel",20),bg="#e2e2e2",relief="flat",borderwidth=0,command=ProductManagementfunc)
         Product_management.place(x=20,y=400)   
 
         Product_management=tk.Button(MainBody,text="Logout",height=3,width=25,font=("Ariel",20),bg="#e2e2e2",relief="flat",borderwidth=0,command=LogOutFunc)

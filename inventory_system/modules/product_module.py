@@ -121,4 +121,4 @@ def productpanel():
 
     window.mainloop()
     
-productpanel()
+# productpanel()

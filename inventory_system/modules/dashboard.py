@@ -16,7 +16,8 @@ def AdminDasboard(USER):
         root.mainloop()
         
     def ProductManagementfunc():
-        pass
+        from product_module import productpanel
+        productpanel()
     
     #-- End of function --
     

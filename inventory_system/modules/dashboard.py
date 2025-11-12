@@ -9,6 +9,11 @@ def AdminDasboard(USER):
     #-- function--
     def LogOutFunc():
         AdminPanel.destroy()
+        from modules.login import login
+        import tkinter as tk
+        root=tk.Tk()
+        login(root)
+        root.mainloop()
     
     #-- End of function --
     

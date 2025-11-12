@@ -1,10 +1,29 @@
 import tkinter as tk
+from tkinter import messagebox
+from database.db_connection import create_connection 
+import mysql.connector # type: ignore
 
 def login(window):
     window.title("Login")
     window.geometry("400x300")
     window.config(bg="#f0f0f0")
-
+    
+    def VerifyUser():
+        username=username_entry.get()
+        password=password_entry.get()
+        
+        conn=create_connection()
+        cursor=conn.cursor()
+        cursor.execute("Select * from Admin where username=%s And password=%s",(username,password))
+        result=cursor.fetchone()
+        conn.close()
+        
+        if result:
+            messagebox.showinfo("Login Success", "Welcome Admin!")
+        else:
+            messagebox.showinfo("Login Failed", "Invalid username or password")
+            
+            
     main_frame = tk.Frame(window, bg="#f0f0f0")
     main_frame.pack(expand=True, fill="both")
 
@@ -32,6 +51,6 @@ def login(window):
 
     btn_frame = tk.Frame(main_frame, bg="#f0f0f0")
     btn_frame.pack(pady=15)
-
-    tk.Button(btn_frame, text="Login", font=("Arial", 12), width=10).grid(row=0, column=0, padx=5)
+    
+    tk.Button(btn_frame, text="Login", font=("Arial", 12), width=10,command=VerifyUser).grid(row=0, column=0, padx=5)
     tk.Button(btn_frame, text="Exit", font=("Arial", 12), width=10, command=window.destroy).grid(row=0, column=1, padx=5)

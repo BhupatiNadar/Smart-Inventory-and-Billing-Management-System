@@ -6,6 +6,12 @@ def AdminDasboard(USER):
     AdminPanel.title("Admin Panel")
     AdminPanel.config(bg="#f0f0f0")
     
+    #-- function--
+    def LogOutFunc():
+        AdminPanel.destroy()
+    
+    #-- End of function --
+    
     
     Header=tk.Frame(AdminPanel, bg="#d9d9d9", height=80)
     Header.pack(fill='x')
@@ -38,11 +44,11 @@ def AdminDasboard(USER):
         Product_management=tk.Button(MainBody,text="Sales Reports",height=3,width=25,font=("Ariel",20),bg="#e2e2e2",relief="flat",borderwidth=0)
         Product_management.place(x=20,y=400)   
 
-        Product_management=tk.Button(MainBody,text="Logout",height=3,width=25,font=("Ariel",20),bg="#e2e2e2",relief="flat",borderwidth=0)
+        Product_management=tk.Button(MainBody,text="Logout",height=3,width=25,font=("Ariel",20),bg="#e2e2e2",relief="flat",borderwidth=0,command=LogOutFunc)
         Product_management.place(x=500,y=400)     
     
     
 
     AdminPanel.mainloop()
-USER=(1, 'Admin@gmail.com', '8097', 'admin')
-AdminDasboard(USER)
+# USER=(1, 'Admin@gmail.com', '8097', 'admin')
+# AdminDasboard(USER)

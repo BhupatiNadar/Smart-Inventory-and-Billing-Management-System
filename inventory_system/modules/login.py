@@ -21,6 +21,7 @@ def login(window):
         
         if USER[3]=="admin":
             messagebox.showinfo("Login Success", "Welcome Admin!")
+            window.destroy()
             AdminDasboard(USER)
             
         elif USER[3]=='staff':

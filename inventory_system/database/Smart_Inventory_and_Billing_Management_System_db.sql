@@ -15,61 +15,6 @@ select * from User;
 
 -- # table --
 
-create table Supplier(
-Supplier_id int primary key auto_increment,
-Supplier_name varchar(100) not null,
-Supplier_contact varchar (15) not null,
-Supplier_email varchar(100) not null,
-Supplier_address varchar(200)
-);
-
-create table Category(
-category_id INT AUTO_INCREMENT PRIMARY KEY,
-name VARCHAR(100)
-);
-
-CREATE TABLE Product(
-    Product_id INT PRIMARY KEY AUTO_INCREMENT,
-    Product_name VARCHAR(100) NOT NULL,
-    cost_price INT,
-    sell_price INT,
-    category_id INT,
-    supplier_id INT,
-    Product_stock INT DEFAULT 0,
-
-    FOREIGN KEY (category_id) REFERENCES Category(category_id),
-    FOREIGN KEY (supplier_id) REFERENCES Supplier(Supplier_id)
-);
-
-
-create table customer_management(
-Customer_id int primary key auto_increment,
-customer_name varchar(100) not null,
-Customer_email varchar(100) not null,
-total_purchase INT DEFAULT 0,
-Customer_phone_no VARCHAR(15) not null
-);
-
-CREATE TABLE sales (
-    invoice_id INT AUTO_INCREMENT PRIMARY KEY,
-    customer_id INT,
-    date DATETIME DEFAULT CURRENT_TIMESTAMP,
-    total_amount INT,
-    
-    FOREIGN KEY (customer_id) REFERENCES customer_management(Customer_id)
-);
-
-CREATE TABLE sales_items (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    invoice_id INT,
-    product_id INT,
-    quantity INT,
-    price INT,
-
-    FOREIGN KEY (invoice_id) REFERENCES sales(invoice_id),
-    FOREIGN KEY (product_id) REFERENCES Product(Product_id)
-);
-
 INSERT INTO Supplier (Supplier_name, Supplier_contact, Supplier_email, Supplier_address) VALUES
 ('TechSource Pvt Ltd', '9876543210', 'contact@techsource.com', 'Mumbai, India'),
 ('Global Traders', '9123456780', 'info@globaltraders.com', 'Delhi, India'),
@@ -146,3 +91,13 @@ INSERT INTO sales_items (invoice_id, product_id, quantity, price) VALUES
 (10, 10, 1, 450);
 
 
+SELECT 
+    p.Product_id,
+    p.Product_name,
+    c.name AS Category_name,
+    s.Supplier_name,
+    p.cost_price,
+    p.Product_stock
+FROM Product p
+JOIN Category c ON p.category_id = c.category_id
+JOIN Supplier s ON p.supplier_id = s.Supplier_id;

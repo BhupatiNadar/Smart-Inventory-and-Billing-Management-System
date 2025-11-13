@@ -44,7 +44,7 @@ def BillingAndPOS_panel():
     Box_for_product = tk.Frame(right_panel,bg='grey',width=800,height=350)
     Box_for_product.grid(row=1,column=0,columnspan=3,padx=20,pady=20)
     
-    Money_calculation=tk.Frame(right_panel)
+    Money_calculation=tk.Frame(right_panel,width=200,bg="White",padx=300)
     Money_calculation.grid(row=2,column=0)
 
     tk.Label(Money_calculation,text='Sub Total:',font=('Ariel', 14, 'bold'),bg='white',padx=5,pady=5).grid(row=0,column=0)

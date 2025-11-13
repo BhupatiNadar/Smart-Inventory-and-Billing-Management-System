@@ -1,6 +1,6 @@
 import tkinter as tk
 
-def BillingAndPOS_panel():
+def BillingAndPOS_panel(USER):
     window = tk.Tk()
     window.title("Billing & POS")
     window.state('zoomed')
@@ -67,4 +67,4 @@ def BillingAndPOS_panel():
     Generate_invoice.grid(row=4,column=1,columnspan=2,pady=10)
     window.mainloop()
 
-BillingAndPOS_panel()
+# BillingAndPOS_panel()

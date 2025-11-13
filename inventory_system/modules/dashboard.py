@@ -1,6 +1,6 @@
 import tkinter as tk
 
-def AdminDasboard(USER):
+def Dasboard(USER):
     AdminPanel=tk.Tk()
     AdminPanel.state("zoomed")
     AdminPanel.title("Admin Panel")
@@ -18,22 +18,22 @@ def AdminDasboard(USER):
     def ProductManagementfunc():
         AdminPanel.destroy()
         from modules.product_module import productpanel
-        productpanel()
+        productpanel(USER)
     
     def BillingAndPOSfunc():
         AdminPanel.destroy()
         from modules.billing_module import BillingAndPOS_panel
-        BillingAndPOS_panel()
+        BillingAndPOS_panel(USER)
         
     def CustomerManagementfunc():
         AdminPanel.destroy()
         from modules.customer_module import Customer_management_panel
-        Customer_management_panel()
+        Customer_management_panel(USER)
     
     def SupplierManagementfunc():
         AdminPanel.destroy()
         from modules.supplier_module import Supplier_management_panel
-        Supplier_management_panel()
+        Supplier_management_panel(USER)
         
     #-- End of function --
     

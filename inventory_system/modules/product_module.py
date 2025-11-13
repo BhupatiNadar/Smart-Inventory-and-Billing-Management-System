@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
-def productpanel():
+def productpanel(USER):
     window = tk.Tk()
     window.title("Product Management")
     window.state('zoomed') 

@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 from database.db_connection import create_connection 
-from modules.dashboard import AdminDasboard
+from modules.dashboard import Dasboard
 
 def login(window):
     window.title("Login")
@@ -22,7 +22,7 @@ def login(window):
         if USER[3]=="admin":
             messagebox.showinfo("Login Success", "Welcome Admin!")
             window.destroy()
-            AdminDasboard(USER)
+            Dasboard(USER)
             
         elif USER[3]=='staff':
             messagebox.showinfo("Login Success", "Welcome staff!")

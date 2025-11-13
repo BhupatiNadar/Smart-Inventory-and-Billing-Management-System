@@ -14,7 +14,7 @@ def login(window):
         
         conn=create_connection()
         cursor=conn.cursor()
-        cursor.execute("Select * from Admin where username=%s And password=%s",(username,password))
+        cursor.execute("Select * from User where username=%s And password=%s",(username,password))
         USER=cursor.fetchone()
         print(USER)
         conn.close()

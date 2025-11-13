@@ -24,6 +24,17 @@ def AdminDasboard(USER):
         AdminPanel.destroy()
         from modules.billing_module import BillingAndPOS_panel
         BillingAndPOS_panel()
+        
+    def CustomerManagementfunc():
+        AdminPanel.destroy()
+        from modules.customer_module import Customer_management_panel
+        Customer_management_panel()
+    
+    def SupplierManagementfunc():
+        AdminPanel.destroy()
+        from modules.supplier_module import Supplier_management_panel
+        Supplier_management_panel()
+        
     #-- End of function --
     
     
@@ -46,10 +57,10 @@ def AdminDasboard(USER):
         Product_management=tk.Button(MainBody,text="Product Management",height=3,width=25,font=("Ariel",20),bg="#e2e2e2",relief="flat",borderwidth=0,command=ProductManagementfunc)
         Product_management.place(x=20,y=100)
 
-        Product_management=tk.Button(MainBody,text="Supplier Management",height=3,width=25,font=("Ariel",20),bg="#e2e2e2",relief="flat",borderwidth=0)
+        Product_management=tk.Button(MainBody,text="Supplier Management",height=3,width=25,font=("Ariel",20),bg="#e2e2e2",relief="flat",borderwidth=0,command=SupplierManagementfunc)
         Product_management.place(x=500,y=100)
 
-        Product_management=tk.Button(MainBody,text="Customer Management",height=3,width=25,font=("Ariel",20),bg="#e2e2e2",relief="flat",borderwidth=0)
+        Product_management=tk.Button(MainBody,text="Customer Management",height=3,width=25,font=("Ariel",20),bg="#e2e2e2",relief="flat",borderwidth=0,command=CustomerManagementfunc)
         Product_management.place(x=20,y=250)
 
         Product_management=tk.Button(MainBody,text="Billing/POS",height=3,width=25,font=("Ariel",20),bg="#e2e2e2",relief="flat",borderwidth=0,command=BillingAndPOSfunc)

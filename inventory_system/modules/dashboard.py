@@ -57,20 +57,20 @@ def Dasboard(USER):
         Product_management=tk.Button(MainBody,text="Product Management",height=3,width=25,font=("Ariel",20),bg="#e2e2e2",relief="flat",borderwidth=0,command=ProductManagementfunc)
         Product_management.place(x=20,y=100)
 
-        Product_management=tk.Button(MainBody,text="Supplier Management",height=3,width=25,font=("Ariel",20),bg="#e2e2e2",relief="flat",borderwidth=0,command=SupplierManagementfunc)
-        Product_management.place(x=500,y=100)
+        Supplier_management=tk.Button(MainBody,text="Supplier Management",height=3,width=25,font=("Ariel",20),bg="#e2e2e2",relief="flat",borderwidth=0,command=SupplierManagementfunc)
+        Supplier_management.place(x=500,y=100)
 
-        Product_management=tk.Button(MainBody,text="Customer Management",height=3,width=25,font=("Ariel",20),bg="#e2e2e2",relief="flat",borderwidth=0,command=CustomerManagementfunc)
-        Product_management.place(x=20,y=250)
+        Customer_management=tk.Button(MainBody,text="Customer Management",height=3,width=25,font=("Ariel",20),bg="#e2e2e2",relief="flat",borderwidth=0,command=CustomerManagementfunc)
+        Customer_management.place(x=20,y=250)
 
-        Product_management=tk.Button(MainBody,text="Billing/POS",height=3,width=25,font=("Ariel",20),bg="#e2e2e2",relief="flat",borderwidth=0,command=BillingAndPOSfunc)
-        Product_management.place(x=500,y=250) 
+        Billing_POS=tk.Button(MainBody,text="Billing/POS",height=3,width=25,font=("Ariel",20),bg="#e2e2e2",relief="flat",borderwidth=0,command=BillingAndPOSfunc)
+        Billing_POS.place(x=500,y=250) 
     
-        Product_management=tk.Button(MainBody,text="Sales Reports",height=3,width=25,font=("Ariel",20),bg="#e2e2e2",relief="flat",borderwidth=0,command=ProductManagementfunc)
-        Product_management.place(x=20,y=400)   
+        Sales_reports=tk.Button(MainBody,text="Sales Reports",height=3,width=25,font=("Ariel",20),bg="#e2e2e2",relief="flat",borderwidth=0)
+        Sales_reports.place(x=20,y=400)   
 
-        Product_management=tk.Button(MainBody,text="Logout",height=3,width=25,font=("Ariel",20),bg="#e2e2e2",relief="flat",borderwidth=0,command=LogOutFunc)
-        Product_management.place(x=500,y=400)     
+        Logout_button=tk.Button(MainBody,text="Logout",height=3,width=25,font=("Ariel",20),bg="#e2e2e2",relief="flat",borderwidth=0,command=LogOutFunc)
+        Logout_button.place(x=500,y=400)     
     
     
 

@@ -61,4 +61,4 @@ def Customer_management_panel(USER):
     tk.Label(Customer_detail_frame,text='Table:Customer List',font=('Ariel',20)).grid(row=0,column=0)
     window.mainloop()
     
-Customer_management_panel((1, 'Admin@gmail.com', '8097', 'admin'))
+# Customer_management_panel((1, 'Admin@gmail.com', '8097', 'admin'))

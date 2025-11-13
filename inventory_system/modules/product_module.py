@@ -14,9 +14,19 @@ def productpanel(USER):
 
     window.configure(bg=bg_color)
     
-    Header=tk.Frame(window,bg='#d9d9d9',padx=20,pady=20)
+    #-- fuction start--
+    def BackButtonfun(USER):
+        window.destroy()
+        from modules.dashboard import Dasboard
+        Dasboard(USER)        
+    #--End function--
+    
+    Header=tk.Frame(window, height=60, pady=10, bg='#d9d9d9')
     Header.pack(fill='x')
-    tk.Label(Header,text="Product Management",font=('Ariel',25),bg='#d9d9d9').pack()
+    Header.pack_propagate(False)
+    tk.Label(Header,text="Product Management",font=('Ariel',20),bg='#d9d9d9').pack(side='left')
+    BackButton=tk.Button(Header,text="Back>",font=('Ariel',15),padx=10,pady=10,command=lambda:BackButtonfun(USER))
+    BackButton.pack(side='right',padx=20)    
     
     MainBody = tk.Frame(window, bg=bg_color, padx=20, pady=20)
     MainBody.pack(fill='both', expand=True)

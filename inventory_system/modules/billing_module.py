@@ -5,11 +5,21 @@ def BillingAndPOS_panel(USER):
     window.title("Billing & POS")
     window.state('zoomed')
     window.config(bg="#ececec")
+    
+    #--function st --
+    def BackButtonfun(USER):
+        window.destroy()
+        from modules.dashboard import Dasboard
+        Dasboard(USER)
+    
+    #--end of function--
 
     Header = tk.Frame(window, height=60, pady=10, bg='#d9d9d9')
     Header.pack(fill='x')
     Header.pack_propagate(False)
-    tk.Label(Header, text="Billing/POS", font=('Ariel', 25, 'bold'), padx=20, bg='#d9d9d9', fg="#333").pack(fill='x')
+    tk.Label(Header, text="Billing/POS", font=('Ariel', 25, 'bold'), padx=20, bg='#d9d9d9', fg="#333").pack(side='left')
+    BackButton=tk.Button(Header,text="Back>",font=('Ariel',15),padx=10,pady=10,command=lambda:BackButtonfun(USER))
+    BackButton.pack(side='right',padx=20)
 
 
     MainBody = tk.Frame(window, bg='#f5f5f5', bd=2, relief='groove')
@@ -67,4 +77,4 @@ def BillingAndPOS_panel(USER):
     Generate_invoice.grid(row=4,column=1,columnspan=2,pady=10)
     window.mainloop()
 
-# BillingAndPOS_panel()
+# BillingAndPOS_panel((1, 'Admin@gmail.com', '8097', 'admin'))

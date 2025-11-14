@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import ttk
 
 def BillingAndPOS_panel(USER):
     window = tk.Tk()
@@ -51,11 +52,70 @@ def BillingAndPOS_panel(USER):
 
     tk.Label(right_panel,text='Cart / Bill Details',font=('Ariel', 20, 'bold'),pady=8,bg='white').grid(row=0,column=0,columnspan=2)
 
-    Box_for_product = tk.Frame(right_panel,bg='grey',width=800,height=350)
-    Box_for_product.grid(row=1,column=0,columnspan=3,padx=20,pady=20)
+    Table_frame=tk.Frame(right_panel)
+    Table_frame.pack(pady=(50,0))
     
-    Money_calculation=tk.Frame(right_panel,width=200,bg="White",padx=300)
-    Money_calculation.grid(row=2,column=0)
+    style = ttk.Style()
+    style.theme_use("clam")
+    
+    style.configure(
+        "Custom.Treeview",
+        background="#ffffff",
+        foreground="#000000",
+        rowheight=32,
+        fieldbackground="#ffffff",
+        font=("Ariel", 10)
+    )
+
+    style.configure(
+        "Custom.Treeview.Heading",
+        font=("Ariel", 10, "bold"),
+        background="#d9d9d9",
+        foreground="black"
+    )
+
+    style.map(
+        "Custom.Treeview",
+        background=[("selected", "#b3d9ff")],
+        foreground=[("selected", "black")]
+    )
+    
+    columns = ("id", "name", "sellprice", "CategoryId", "ProductStock")
+
+    Tree = ttk.Treeview(
+    Table_frame,
+    columns=columns,
+    show="headings",
+    height=10,
+    style="Custom.Treeview"
+    )
+
+    Tree.heading("id", text="Product Id")
+    Tree.heading("name", text="Product Name")
+    Tree.heading("sellprice", text="Sell Price")
+    Tree.heading("CategoryId", text="Category Id")
+    Tree.heading("ProductStock", text="Product Stock")
+    
+    Tree.column("id", width=100, anchor="center")
+    Tree.column("name", width=100)
+    Tree.column("sellprice", width=100)
+    Tree.column("CategoryId", width=100, anchor="center")
+    Tree.column("ProductStock", width=100)
+    
+    Tree.pack(side="left")
+    
+    scrollbar = ttk.Scrollbar(Table_frame, orient="vertical", command=Tree.yview)
+    scrollbar.pack(side="right", fill="y")
+    Tree.configure(yscrollcommand=scrollbar.set)
+    
+    products=[(1,"Bhupati",500,"tec","1")]#testing data
+    
+    for row in products:
+        Tree.insert("",tk.END,values=row)
+
+    Money_calculation = tk.Frame(right_panel, width=200, bg="white")
+    Money_calculation.pack(side='left',padx=20, pady=20)
+
 
     tk.Label(Money_calculation,text='Sub Total:',font=('Ariel', 14, 'bold'),bg='white',padx=5,pady=5).grid(row=0,column=0)
     Sub_total=tk.Label(Money_calculation,text="0.00",font=('Ariel', 14, 'bold'),bg='white',padx=5,pady=5)

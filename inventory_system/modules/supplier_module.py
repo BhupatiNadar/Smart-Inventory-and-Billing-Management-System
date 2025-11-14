@@ -1,4 +1,6 @@
 import tkinter as tk
+from tkinter import ttk
+
 
 def Supplier_management_panel(USER):
     window=tk.Tk()
@@ -67,7 +69,74 @@ def Supplier_management_panel(USER):
     
     tk.Label(Supplier_Label_frame,text='Supplier Detail:',font=('Ariel',20)).pack(side='left')
     
+    Table_frame=tk.Frame(window)
+    Table_frame.pack(pady=20,side='left')
     
+    style = ttk.Style()
+    style.theme_use("clam")
+
+    style.configure(
+        "Custom.Treeview",
+        background="#ffffff",
+        foreground="#000000",
+        rowheight=32,
+        fieldbackground="#ffffff",
+        font=("Ariel", 13)
+    )
+
+    style.configure(
+        "Custom.Treeview.Heading",
+        font=("Ariel", 15, "bold"),
+        background="#d9d9d9",
+        foreground="black"
+    )
+
+    style.map(
+        "Custom.Treeview",
+        background=[("selected", "#b3d9ff")],
+        foreground=[("selected", "black")]
+    )
+    
+    columns = ("id", "name", "contact", "email", "address")
+    
+    Tree = ttk.Treeview(
+        Table_frame,
+        columns=columns,
+        show="headings",
+        height=12,
+        style="Custom.Treeview"
+    )
+    
+    Tree.heading("id", text="Supplier ID")
+    Tree.heading("name", text="Name")
+    Tree.heading("contact", text="Contact")
+    Tree.heading("email", text="Email")
+    Tree.heading("address", text="Address")
+
+    Tree.column("id", width=150, anchor="center")
+    Tree.column("name", width=250)
+    Tree.column("contact", width=180)
+    Tree.column("email", width=200)
+    Tree.column("address", width=150, anchor="center")
+
+    Tree.pack(side="left")
+    
+    scrollbar = ttk.Scrollbar(Table_frame, orient="vertical", command=Tree.yview)
+    scrollbar.pack(side="right", fill="y")
+    Tree.configure(yscrollcommand=scrollbar.set)
+    
+    def Supplierfuc():
+        from database.db_connection import create_connection
+        conn=create_connection()
+        cursor=conn.cursor()
+        cursor.execute(""" select Supplier_id,Supplier_name ,Supplier_contact,Supplier_email,Supplier_address from supplier""")
+        datas=cursor.fetchall()
+        conn.close()
+        return datas
+    
+    for row in Supplierfuc():
+        Tree.insert("",tk.END,values=row)
+        
     window.mainloop()
     
 # Supplier_management_panel((1, 'Admin@gmail.com', '8097', 'admin'))

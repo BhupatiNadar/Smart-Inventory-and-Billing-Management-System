@@ -7,11 +7,63 @@ def BillingAndPOS_panel(USER):
     window.state('zoomed')
     window.config(bg="#ececec")
     
+    #--function st for AddCartfunc --
+    def AddCartfunc():
+        ProductID=select_product_by_id.get()
+        Quantity_selected=Quantity_entry.get()
+        from database.db_connection import create_connection
+        conn=create_connection()
+        cursor=conn.cursor()
+        cursor.execute("Select Product_id ,Product_name,sell_price,category_id from product where Product_id =%s",(ProductID,))
+        data=cursor.fetchone()
+        data=data +(int(Quantity_selected),)
+        products.append(data)
+        Total_amount=subtotal(products)
+        Total_amount=Discount_amount(int(Total_amount))
+        Total_amount=Taxfunc(Total_amount)
+        Total(Total_amount)
+        ClearFunc()
+        TableLoad()
+        print(data)
+    
+    #--END of function
+    
+    #--Fuction st for Calculation --
+    def subtotal(products):
+        amount=0
+        for product in products:
+            amount+=product[2]*product[4]
+        Sub_total.configure(text=f'{amount}')
+        return amount
+    
+    
+    def Discount_amount(subtotalAmount):
+        if subtotalAmount > 5000 and subtotalAmount < 10000 :
+            discount=subtotalAmount*10/100
+        elif subtotalAmount > 10000:
+            discount=subtotalAmount*15/100
+        else :
+            discount=subtotalAmount*5/100
+        Discount.configure(text=f'{discount}')
+        return subtotalAmount-discount
+    
+    def Taxfunc(Total_amount):
+        Tax.configure(text=f'{Total_amount*18/100}')
+        return Total_amount+ (Total_amount*18/100)
+
+    def Total(Total_amount):
+        TotalAmount.configure(text=f'{Total_amount}')
+    
+    #--End of Function--
     #--function st --
     def BackButtonfun(USER):
         window.destroy()
         from modules.dashboard import Dasboard
         Dasboard(USER)
+        
+    def ClearFunc():
+        select_product_by_id.delete(0,tk.END)
+        Quantity_entry.delete(0,tk.END)
     
     #--end of function--
 
@@ -32,15 +84,15 @@ def BillingAndPOS_panel(USER):
     left_panel.pack_propagate(False)
     tk.Label(left_panel, text='Billing Panel', font=('Ariel', 20, 'bold'), pady=8,bg='white').grid(row=0, column=0, columnspan=2)
     
-    tk.Label(left_panel,text="Select Product",font=('Ariel',15),pady=10,bg='white').grid(row=1,column=0)
-    select_product=tk.Entry(left_panel,borderwidth=1,relief='solid',font=('Ariel', 15))
-    select_product.grid(row=1,column=1, padx=5, pady=8)
+    tk.Label(left_panel,text="Select Product by id",font=('Ariel',15),pady=10,bg='white').grid(row=1,column=0)
+    select_product_by_id=tk.Entry(left_panel,borderwidth=1,relief='solid',font=('Ariel', 15))
+    select_product_by_id.grid(row=1,column=1, padx=5, pady=8)
     
     tk.Label(left_panel,text="Quantity",font=('Ariel',15),pady=10,bg='white').grid(row=2,column=0)
     Quantity_entry=tk.Entry(left_panel,borderwidth=1,relief='solid',font=('Ariel', 15))
     Quantity_entry.grid(row=2,column=1,padx=5,pady=8)
     
-    Add_to_product=tk.Button(left_panel,text="Add to Cart",font=('Ariel',15))
+    Add_to_product=tk.Button(left_panel,text="Add to Cart",font=('Ariel',15),command=AddCartfunc)
     Add_to_product.grid(row=3,column=1)
     
     
@@ -80,7 +132,7 @@ def BillingAndPOS_panel(USER):
         foreground=[("selected", "black")]
     )
     
-    columns = ("id", "name", "sellprice", "CategoryId", "ProductStock")
+    columns = ("id", "name", "sellprice", "CategoryId", "Quantity")
 
     Tree = ttk.Treeview(
     Table_frame,
@@ -94,13 +146,13 @@ def BillingAndPOS_panel(USER):
     Tree.heading("name", text="Product Name")
     Tree.heading("sellprice", text="Sell Price")
     Tree.heading("CategoryId", text="Category Id")
-    Tree.heading("ProductStock", text="Product Stock")
+    Tree.heading("Quantity", text="Quantity")
     
     Tree.column("id", width=100, anchor="center")
-    Tree.column("name", width=100)
-    Tree.column("sellprice", width=100)
+    Tree.column("name", width=100,anchor="center")
+    Tree.column("sellprice", width=100,anchor="center")
     Tree.column("CategoryId", width=100, anchor="center")
-    Tree.column("ProductStock", width=100)
+    Tree.column("Quantity", width=100,anchor="center")
     
     Tree.pack(side="left")
     
@@ -108,11 +160,16 @@ def BillingAndPOS_panel(USER):
     scrollbar.pack(side="right", fill="y")
     Tree.configure(yscrollcommand=scrollbar.set)
     
-    products=[(1,"Bhupati",500,"tec","1")]#testing data
+    products=[]#testing data
     
-    for row in products:
-        Tree.insert("",tk.END,values=row)
-
+    def TableLoad():
+        for item in Tree.get_children():
+            Tree.delete(item)
+            
+        for row in products:
+            Tree.insert("",tk.END,values=row)
+            
+    TableLoad()
     Money_calculation = tk.Frame(right_panel, width=200, bg="white")
     Money_calculation.pack(side='left',padx=20, pady=20)
 
@@ -130,8 +187,8 @@ def BillingAndPOS_panel(USER):
     Tax.grid(row=2,column=1) 
     
     tk.Label(Money_calculation,text='Total:',font=('Ariel', 14, 'bold'),bg='white',padx=5,pady=5).grid(row=3,column=0)
-    Tax=tk.Label(Money_calculation,text="0.00",font=('Ariel', 14, 'bold'),bg='white',padx=5,pady=5)  
-    Tax.grid(row=3,column=1)  
+    TotalAmount=tk.Label(Money_calculation,text="0.00",font=('Ariel', 14, 'bold'),bg='white',padx=5,pady=5)  
+    TotalAmount.grid(row=3,column=1)  
     
     Generate_invoice=tk.Button(Money_calculation,text="Generate Invoice",font=('Ariel',14)) 
     Generate_invoice.grid(row=4,column=1,columnspan=2,pady=10)

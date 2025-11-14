@@ -6,6 +6,66 @@ def Customer_management_panel(USER):
     window.title("Customer Management")
     window.state('zoomed')
     
+    #--fuction for Add,update,delete,clear --
+    def Addfunc():
+        Customer_name=Name_Entry.get()
+        Customer_phone_no=Phone_Entry.get()
+        Customer_email=Email_Entry.get()
+        
+        from database.db_connection import create_connection
+        conn=create_connection()
+        cursor=conn.cursor()
+        cursor.execute('''
+                       insert into customer_management (customer_name ,Customer_email ,Customer_phone_no) values (%s,%s,%s)
+                       ''',(Customer_name,Customer_email,Customer_phone_no))
+        
+        conn.commit()
+        conn.close()
+        Clearfunc()
+        TableLoad()
+        
+    def Deletefunc():
+        CustomerID=Customer_id_Entry.get()
+        
+        from database.db_connection import create_connection
+        conn=create_connection()
+        cursor=conn.cursor()
+        cursor.execute('Delete from customer_management where Customer_id =%s',(CustomerID,))
+        
+        conn.commit()
+        conn.close()
+        Clearfunc()
+        TableLoad()
+    
+    def Clearfunc():
+        Customer_id_Entry.delete(0,tk.END)
+        Name_Entry.delete(0,tk.END)
+        Phone_Entry.delete(0,tk.END)
+        Email_Entry.delete(0,tk.END)
+        
+    def Updatefunc():
+        Customer_name=Name_Entry.get()
+        Customer_phone_no=Phone_Entry.get()
+        Customer_email=Email_Entry.get()
+        CustomerID=Customer_id_Entry.get()
+        
+        from database.db_connection import create_connection
+        conn=create_connection()
+        cursor=conn.cursor()
+        cursor.execute('''
+                       update customer_management
+                       set customer_name =%s,Customer_email =%s,Customer_phone_no =%s
+                       where Customer_id =%s
+                       ''',(Customer_name,Customer_email,Customer_phone_no,CustomerID))
+        
+        conn.commit()
+        conn.close()
+        Clearfunc()
+        TableLoad()
+              
+    
+    #--END--
+    
     #--function st --
     def BackButtonfun(USER):
         window.destroy()
@@ -44,16 +104,16 @@ def Customer_management_panel(USER):
     CRUD_operation_button_frame=tk.Frame(window,height=80)
     CRUD_operation_button_frame.pack(fill='x')
     
-    Add_button=tk.Button(CRUD_operation_button_frame,text='Add',font=('Ariel',15),width=10)
+    Add_button=tk.Button(CRUD_operation_button_frame,text='Add',font=('Ariel',15),width=10,command=Addfunc)
     Add_button.pack(side='left',padx=30)
     
-    Update_button=tk.Button(CRUD_operation_button_frame,text='Update',font=('Ariel',15),width=10)
+    Update_button=tk.Button(CRUD_operation_button_frame,text='Update',font=('Ariel',15),width=10,command=Updatefunc)
     Update_button.pack(side='left',padx=30)
     
-    Delete_button=tk.Button(CRUD_operation_button_frame,text='Delete',font=('Ariel',15),width=10)
+    Delete_button=tk.Button(CRUD_operation_button_frame,text='Delete',font=('Ariel',15),width=10,command=Deletefunc)
     Delete_button.pack(side='left',padx=30)
     
-    Clear_button=tk.Button(CRUD_operation_button_frame,text='Clear',font=('Ariel',15),width=10)
+    Clear_button=tk.Button(CRUD_operation_button_frame,text='Clear',font=('Ariel',15),width=10,command=Clearfunc)
     Clear_button.pack(side='left',padx=30)
     
     Customer_detail_frame=tk.Frame(window)
@@ -126,8 +186,14 @@ def Customer_management_panel(USER):
         conn.close()
         return datas
     
-    for row in Customerfunc():
-        Tree.insert("",tk.END,values=row)
+    def TableLoad():
+        for item in Tree.get_children():
+            Tree.delete(item)
+            
+        for row in Customerfunc():
+            Tree.insert("",tk.END,values=row)
+            
+    TableLoad()
     
     window.mainloop()
     

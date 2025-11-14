@@ -7,6 +7,62 @@ def Supplier_management_panel(USER):
     window.title("Supplier Management")
     window.state('zoomed')
     
+    #-- function St for CRUD Operation --
+    def Addfunc():
+        SupplierName=Name_entry.get()
+        SupplierContact=Contact_entry.get()
+        SupplierEmail=Email_entry.get()
+        SupplierAddress=Address_entry.get()
+        
+        from database.db_connection import create_connection
+        conn=create_connection()
+        cursor=conn.cursor()
+        cursor.execute('insert into supplier (Supplier_name ,Supplier_contact ,Supplier_email ,Supplier_address) values (%s,%s,%s,%s)',(SupplierName,SupplierContact,SupplierEmail,SupplierAddress))
+        conn.commit()
+        conn.close()
+        
+        Clearfunc()
+        Tableload()
+        
+    def Deletefunc():
+        SupplierID=Supplire_id_entry.get()
+        from database.db_connection import create_connection
+        conn=create_connection()
+        cursor=conn.cursor()
+        cursor.execute('delete from supplier where Supplier_id =%s ',(SupplierID,))
+        conn.commit()
+        conn.close()
+        
+        Clearfunc()
+        Tableload()
+        
+    def Updatefunc():
+        SupplierID=Supplire_id_entry.get()
+        SupplierName=Name_entry.get()
+        SupplierContact=Contact_entry.get()
+        SupplierEmail=Email_entry.get()
+        SupplierAddress=Address_entry.get()
+        
+        from database.db_connection import create_connection
+        conn=create_connection()
+        cursor=conn.cursor()
+        cursor.execute('update supplier set Supplier_name =%s,Supplier_contact =%s,Supplier_email =%s,Supplier_address =%s where Supplier_id =%s ',(SupplierName,SupplierContact,SupplierEmail,SupplierAddress,SupplierID))
+        
+        conn.commit()
+        conn.close()
+        
+        Clearfunc()
+        Tableload()
+        
+    
+    def Clearfunc():
+        Supplire_id_entry.delete(0,tk.END)
+        Name_entry.delete(0,tk.END)
+        Contact_entry.delete(0,tk.END)
+        Email_entry.delete(0,tk.END)
+        Address_entry.delete(0,tk.END)  
+    #--END--
+    
     #--function st --
     def BackButtonfun(USER):
         window.destroy()
@@ -52,16 +108,16 @@ def Supplier_management_panel(USER):
     CRUD_operation_button_frame=tk.Frame(Frame_for_input_and_button)
     CRUD_operation_button_frame.grid(row=0,column=1,padx=40)
     
-    Add_button=tk.Button(CRUD_operation_button_frame,text='Add',font=('Ariel',15),width=10)
+    Add_button=tk.Button(CRUD_operation_button_frame,text='Add',font=('Ariel',15),width=10,command=Addfunc)
     Add_button.pack(padx=30,pady=20)
     
-    Update_button=tk.Button(CRUD_operation_button_frame,text='Update',font=('Ariel',15),width=10)
+    Update_button=tk.Button(CRUD_operation_button_frame,text='Update',font=('Ariel',15),width=10,command=Updatefunc)
     Update_button.pack(padx=30,pady=20)
     
-    Delete_button=tk.Button(CRUD_operation_button_frame,text='Delete',font=('Ariel',15),width=10)
+    Delete_button=tk.Button(CRUD_operation_button_frame,text='Delete',font=('Ariel',15),width=10,command=Deletefunc)
     Delete_button.pack(padx=30,pady=20)
     
-    Clear_button=tk.Button(CRUD_operation_button_frame,text='Clear',font=('Ariel',15),width=10)
+    Clear_button=tk.Button(CRUD_operation_button_frame,text='Clear',font=('Ariel',15),width=10,command=Clearfunc)
     Clear_button.pack(padx=30,pady=20)
     
     Supplier_Label_frame=tk.Frame(window)
@@ -134,8 +190,14 @@ def Supplier_management_panel(USER):
         conn.close()
         return datas
     
-    for row in Supplierfuc():
-        Tree.insert("",tk.END,values=row)
+    def Tableload():
+        for item in Tree.get_children():
+            Tree.delete(item)
+            
+        for row in Supplierfuc():
+            Tree.insert("",tk.END,values=row)
+            
+    Tableload()
         
     window.mainloop()
     

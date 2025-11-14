@@ -12,6 +12,87 @@ def productpanel(USER):
     font_color = "#222222"
     button_bg = "#e0e0e0"
     window.configure(bg=bg_color)
+    
+    #---add,update,delete,clear func--
+    def Add_product_func():
+        ProductName=Name.get()
+        CostPrice=cost_price.get()
+        CategoryName=category_entry.get()
+        SupplierName=supplier_entry.get()
+        Stock=stock_entry.get()
+        SellingPrice=int(CostPrice)+50
+        
+        from database.db_connection import create_connection
+        conn=create_connection()
+        cursor=conn.cursor()
+        cursor.execute('Select Supplier_id from supplier where Supplier_name = %s ',(SupplierName,))
+        SupplierID=cursor.fetchone()
+        cursor.execute('Select category_id  from category where name  = %s ',(CategoryName,))
+        CategoryID=cursor.fetchone()
+        cursor.execute(
+        '''
+        INSERT INTO product
+        (Product_name, cost_price, sell_price, category_id, supplier_id, Product_stock)
+        VALUES (%s, %s, %s, %s, %s, %s)
+        ''',
+        (ProductName, CostPrice, SellingPrice, CategoryID[0], SupplierID[0], Stock)
+        )
+        conn.commit()
+        loadTable()
+        conn.close()
+        Clearfunc()
+        
+    def delete_product_func():
+        ProductID=product_id.get()
+        from database.db_connection import create_connection
+        conn=create_connection()
+        cursor=conn.cursor()
+        cursor.execute('Delete from product where Product_id =%s',(ProductID,))
+        conn.commit()
+        conn.close()
+        loadTable()
+        Clearfunc()
+        
+    def Clearfunc():
+        product_id.delete(0,tk.END)
+        Name.delete(0,tk.END)
+        cost_price.delete(0,tk.END)
+        category_entry.current(0)
+        supplier_entry.current(0)
+        stock_entry.delete(0,tk.END)
+        
+    def update_product_func():
+        ProductID=product_id.get()
+        ProductName=Name.get()
+        CostPrice=cost_price.get()
+        CategoryName=category_entry.get()
+        SupplierName=supplier_entry.get()
+        Stock=stock_entry.get()
+        SellingPrice=int(CostPrice)+50
+
+        from database.db_connection import create_connection
+        conn=create_connection()
+        cursor=conn.cursor()
+        cursor.execute('Select Supplier_id from supplier where Supplier_name = %s ',(SupplierName,))
+        SupplierID=cursor.fetchone()
+        cursor.execute('Select category_id  from category where name  = %s ',(CategoryName,))
+        CategoryID=cursor.fetchone()
+        
+        cursor.execute('''
+                       update product
+                       set Product_name =%s,cost_price =%s,sell_price =%s,category_id =%s,supplier_id=%s,Product_stock=%s
+                       where Product_id =%s 
+                       ''',(ProductName, CostPrice, SellingPrice, CategoryID[0], SupplierID[0], Stock,ProductID))
+        
+        conn.commit()
+        conn.close()
+        Clearfunc()
+        loadTable()
+        
+        
+        
+        
+    #---END--
 
     # ---------------- Back Button ----------------
     def BackButtonfun(USER):
@@ -83,10 +164,10 @@ def productpanel(USER):
     btn_font = ('Ariel', 12)
     btn_width = 12
 
-    tk.Button(Bttn, text="Add", bg=button_bg, font=btn_font, width=btn_width).pack(side="left", padx=6)
-    tk.Button(Bttn, text="Update", bg=button_bg, font=btn_font, width=btn_width).pack(side="left", padx=6)
-    tk.Button(Bttn, text="Delete", bg=button_bg, font=btn_font, width=btn_width).pack(side="left", padx=6)
-    tk.Button(Bttn, text="Clear", bg=button_bg, font=btn_font, width=btn_width).pack(side="left", padx=6)
+    tk.Button(Bttn, text="Add", bg=button_bg, font=btn_font, width=btn_width,command=Add_product_func).pack(side="left", padx=6)
+    tk.Button(Bttn, text="Update", bg=button_bg, font=btn_font, width=btn_width,command=update_product_func).pack(side="left", padx=6)
+    tk.Button(Bttn, text="Delete", bg=button_bg, font=btn_font, width=btn_width,command=delete_product_func).pack(side="left", padx=6)
+    tk.Button(Bttn, text="Clear", bg=button_bg, font=btn_font, width=btn_width,command=Clearfunc).pack(side="left", padx=6)
 
     # ---------------- Table Frame ----------------
     TableFrame = tk.Frame(MainBody, bg=bg_color)
@@ -163,8 +244,14 @@ def productpanel(USER):
         datas = cursor.fetchall()
         conn.close()
         return datas
+    
+    def loadTable():
+        for item in Tree.get_children():
+            Tree.delete(item)
 
-    for row in Productfunc():
-        Tree.insert("", tk.END, values=row)
+        for row in Productfunc():
+            Tree.insert("", tk.END, values=row)
+    
+    loadTable()
 
     window.mainloop()

@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import ttk
 
 def Customer_management_panel(USER):
     window=tk.Tk()
@@ -59,6 +60,75 @@ def Customer_management_panel(USER):
     Customer_detail_frame.pack(fill='both',pady=20,padx=20)
     Customer_detail_frame.pack_propagate(False)
     tk.Label(Customer_detail_frame,text='Table:Customer List',font=('Ariel',20)).grid(row=0,column=0)
+    
+    Table_frame=tk.Frame(window)
+    Table_frame.pack(pady=20,side='left')
+    
+    style = ttk.Style()
+    style.theme_use("clam")
+    
+    style.configure(
+        "Custom.Treeview",
+        background="#ffffff",
+        foreground="#000000",
+        rowheight=32,
+        fieldbackground="#ffffff",
+        font=("Ariel", 13)
+    )
+
+    style.configure(
+        "Custom.Treeview.Heading",
+        font=("Ariel", 15, "bold"),
+        background="#d9d9d9",
+        foreground="black"
+    )
+
+    style.map(
+        "Custom.Treeview",
+        background=[("selected", "#b3d9ff")],
+        foreground=[("selected", "black")]
+    )
+    
+    columns = ("id", "name", "email","PhoneNo")
+    
+    Tree = ttk.Treeview(
+        Table_frame,
+        columns=columns,
+        show="headings",
+        height=12,
+        style="Custom.Treeview"
+    )
+    
+    Tree.heading("id", text="Customer ID")
+    Tree.heading("name", text="Name")
+    Tree.heading("email", text="Email")
+    Tree.heading("PhoneNo", text="Mobile No")
+
+    Tree.column("id", width=250, anchor="center")
+    Tree.column("name", width=250)
+    Tree.column("email", width=200)
+    Tree.column("PhoneNo", width=250, anchor="center")
+    
+    Tree.pack(side="left")
+    
+    scrollbar = ttk.Scrollbar(Table_frame, orient="vertical", command=Tree.yview)
+    scrollbar.pack(side="right", fill="y")
+    Tree.configure(yscrollcommand=scrollbar.set)
+    
+    def Customerfunc():
+        from database.db_connection import create_connection
+        conn=create_connection()
+        cursor=conn.cursor()
+        cursor.execute("""
+                       select Customer_id ,customer_name ,Customer_email ,Customer_phone_no from customer_management
+                       """)
+        datas=cursor.fetchall()
+        conn.close()
+        return datas
+    
+    for row in Customerfunc():
+        Tree.insert("",tk.END,values=row)
+    
     window.mainloop()
     
 # Customer_management_panel((1, 'Admin@gmail.com', '8097', 'admin'))

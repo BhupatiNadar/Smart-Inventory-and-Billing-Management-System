@@ -18,6 +18,7 @@ def BillingAndPOS_panel(USER):
         data=cursor.fetchone()
         data=data +(int(Quantity_selected),)
         products.append(data)
+        print(products)
         Total_amount=subtotal(products)
         Total_amount=Discount_amount(int(Total_amount))
         Total_amount=Taxfunc(Total_amount)
@@ -27,6 +28,29 @@ def BillingAndPOS_panel(USER):
         print(data)
     
     #--END of function
+    
+    #--fuction for GenerateInvoiceFunc--
+    def GenerateInvoiceFunc():
+        from utils.simple_invoice import generate_simple_invoice
+
+        items = [
+        {"name": "Sugar", "qty": 2, "price": 40, "total": 80},
+        {"name": "Tea", "qty": 1, "price": 120, "total": 120}
+        ]
+
+        file = generate_simple_invoice(
+        invoice_id=101,
+        customer_name="Rahul Sharma",
+        items=items,
+        subtotal=200,
+        tax=10,
+        grand_total=210
+        )
+
+        print("Invoice created:", file)
+
+
+    #-- END of Function --
     
     #--Fuction st for Calculation --
     def subtotal(products):
@@ -190,7 +214,7 @@ def BillingAndPOS_panel(USER):
     TotalAmount=tk.Label(Money_calculation,text="0.00",font=('Ariel', 14, 'bold'),bg='white',padx=5,pady=5)  
     TotalAmount.grid(row=3,column=1)  
     
-    Generate_invoice=tk.Button(Money_calculation,text="Generate Invoice",font=('Ariel',14)) 
+    Generate_invoice=tk.Button(Money_calculation,text="Generate Invoice",font=('Ariel',14),command=GenerateInvoiceFunc) 
     Generate_invoice.grid(row=4,column=1,columnspan=2,pady=10)
     window.mainloop()
 

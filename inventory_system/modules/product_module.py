@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from database.db_connection import create_connection
+from tkinter import messagebox
 
 def productpanel(USER):
     window = tk.Tk()
@@ -38,8 +39,9 @@ def productpanel(USER):
         (ProductName, CostPrice, SellingPrice, CategoryID[0], SupplierID[0], Stock)
         )
         conn.commit()
-        loadTable()
         conn.close()
+        messagebox.showinfo('Success','Product Added')
+        loadTable()
         Clearfunc()
         
     def delete_product_func():
@@ -50,6 +52,7 @@ def productpanel(USER):
         cursor.execute('Delete from product where Product_id =%s',(ProductID,))
         conn.commit()
         conn.close()
+        messagebox.showinfo('Success','Product Deleted')
         loadTable()
         Clearfunc()
         
@@ -86,6 +89,7 @@ def productpanel(USER):
         
         conn.commit()
         conn.close()
+        messagebox.showinfo('Success','Product Updated')
         Clearfunc()
         loadTable()
         

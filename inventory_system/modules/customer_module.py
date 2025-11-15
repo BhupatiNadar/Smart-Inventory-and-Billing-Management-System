@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from tkinter import messagebox
 
 def Customer_management_panel(USER):
     window=tk.Tk()
@@ -21,6 +22,7 @@ def Customer_management_panel(USER):
         
         conn.commit()
         conn.close()
+        messagebox.showinfo('Success','Customer Added')
         Clearfunc()
         TableLoad()
         
@@ -34,6 +36,7 @@ def Customer_management_panel(USER):
         
         conn.commit()
         conn.close()
+        messagebox.showinfo('Success','Customer Deleted')
         Clearfunc()
         TableLoad()
     
@@ -60,6 +63,7 @@ def Customer_management_panel(USER):
         
         conn.commit()
         conn.close()
+        messagebox.showinfo('Success','Customer updated')
         Clearfunc()
         TableLoad()
               

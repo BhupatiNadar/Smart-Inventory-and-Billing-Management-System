@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 from database.db_connection import create_connection 
 from modules.dashboard import Dasboard
+from tkinter import messagebox
 
 def login(window):
     window.title("Login")
@@ -18,15 +19,17 @@ def login(window):
         USER=cursor.fetchone()
         print(USER)
         conn.close()
-        
-        if USER[3]=="admin":
-            messagebox.showinfo("Login Success", "Welcome Admin!")
-            window.destroy()
-            Dasboard(USER)
+        try:
+            if USER[3]=="admin":
+                messagebox.showinfo("Login Success", "Welcome Admin!")
+                window.destroy()
+                Dasboard(USER)
             
-        elif USER[3]=='staff':
-            messagebox.showinfo("Login Success", "Welcome staff!")
-        else:
+            elif USER[3]=='staff':
+                messagebox.showinfo("Login Success", "Welcome staff!")
+            else:
+                messagebox.showinfo("Login Failed", "Invalid username or password")
+        except:
             messagebox.showinfo("Login Failed", "Invalid username or password")
             
             

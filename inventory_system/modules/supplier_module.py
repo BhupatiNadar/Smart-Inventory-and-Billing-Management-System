@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-
+from tkinter import messagebox
 
 def Supplier_management_panel(USER):
     window=tk.Tk()
@@ -20,7 +20,7 @@ def Supplier_management_panel(USER):
         cursor.execute('insert into supplier (Supplier_name ,Supplier_contact ,Supplier_email ,Supplier_address) values (%s,%s,%s,%s)',(SupplierName,SupplierContact,SupplierEmail,SupplierAddress))
         conn.commit()
         conn.close()
-        
+        messagebox.showinfo('Success','Supplier Added')
         Clearfunc()
         Tableload()
         
@@ -32,7 +32,7 @@ def Supplier_management_panel(USER):
         cursor.execute('delete from supplier where Supplier_id =%s ',(SupplierID,))
         conn.commit()
         conn.close()
-        
+        messagebox.showinfo('Success','Supplier deleted')
         Clearfunc()
         Tableload()
         
@@ -50,7 +50,7 @@ def Supplier_management_panel(USER):
         
         conn.commit()
         conn.close()
-        
+        messagebox.showinfo('Success','Supplier updated')
         Clearfunc()
         Tableload()
         

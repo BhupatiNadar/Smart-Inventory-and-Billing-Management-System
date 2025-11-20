@@ -42,7 +42,9 @@ def Dasboard(USER):
     Header.pack(fill='x')
     Header.pack_propagate(False)
     
-    tk.Label(Header,text="Dasboard",font=("Ariel",25),bg="#d9d9d9").pack(pady=10)
+    tk.Label(Header,text="Dasboard",font=("Ariel",25),bg="#d9d9d9",pady=5).place(x=650)
+    AddStaff=tk.Button(Header,text="AddStaff",font=("Ariel",15),bg="#d9d9d9")
+    AddStaff.place(x=1400,y=20)
     
     MainBody=tk.Frame(AdminPanel,width=1000,height=700,highlightbackground="lightgrey",highlightthickness=2)
     MainBody.pack(padx=10,pady=50)

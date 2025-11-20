@@ -31,30 +31,32 @@ def BillingAndPOS_panel(USER):
     
     #--fuction for GenerateInvoiceFunc--
     def GenerateInvoiceFunc():
-        from utils.simple_invoice import generate_simple_invoice
+        try:
+            from utils.simple_invoice import generate_simple_invoice
 
-        items = products
-        items=[{'name':p[0],'qty':p[4],'price':p[2],'total':p[2]*p[4]}for p in products]
-        print(items)
-        CustomerName=""
-        from database.db_connection import create_connection
-        conn=create_connection()
-        cursor=conn.cursor()
-        cursor.execute("select customer_name  from customer_management where Customer_id = %s",(Customerid.get(),))
-        CustomerName=cursor.fetchone()
-        conn.close()
-        print(CustomerName)
-        file = generate_simple_invoice(
-        invoice_id=101,
-        customer_name=CustomerName[0],
-        items=items,
-        subtotal=Sub_total.cget("text"),
-        tax=Tax.cget("text"),
-        grand_total=TotalAmount.cget("text")
-        )
-
-        print("Invoice created:", file)
-        ClearFuncRHS()
+            items = products
+            items=[{'name':p[1],'qty':p[4],'price':p[2],'total':p[2]*p[4]}for p in products]
+            print(items)
+            CustomerName=""
+            from database.db_connection import create_connection
+            conn=create_connection()
+            cursor=conn.cursor()
+            cursor.execute("select customer_name  from customer_management where Customer_id = %s",(Customerid.get(),))
+            CustomerName=cursor.fetchone()
+            conn.close()
+            print(CustomerName)
+            file = generate_simple_invoice(
+            invoice_id=101,
+            customer_name=CustomerName[0],
+            items=items,
+            subtotal=Sub_total.cget("text"),
+            tax=Tax.cget("text"),
+            grand_total=TotalAmount.cget("text")
+            )
+            print("Invoice created:", file)
+            ClearFuncRHS()
+        except :
+            pass
 
     #-- END of Function --
     

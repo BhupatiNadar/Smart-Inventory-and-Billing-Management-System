@@ -167,10 +167,10 @@ def productpanel(USER):
 
     btn_font = ('Ariel', 12)
     btn_width = 12
-
+    state_val = "disabled" if USER[3] == "staff" else "normal"
     tk.Button(Bttn, text="Add", bg=button_bg, font=btn_font, width=btn_width,command=Add_product_func).pack(side="left", padx=6)
     tk.Button(Bttn, text="Update", bg=button_bg, font=btn_font, width=btn_width,command=update_product_func).pack(side="left", padx=6)
-    tk.Button(Bttn, text="Delete", bg=button_bg, font=btn_font, width=btn_width,command=delete_product_func).pack(side="left", padx=6)
+    tk.Button(Bttn, text="Delete", bg=button_bg, font=btn_font, width=btn_width,command=delete_product_func,state=state_val).pack(side="left", padx=6)
     tk.Button(Bttn, text="Clear", bg=button_bg, font=btn_font, width=btn_width,command=Clearfunc).pack(side="left", padx=6)
 
     # ---------------- Table Frame ----------------

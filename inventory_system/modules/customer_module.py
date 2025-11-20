@@ -104,7 +104,7 @@ def Customer_management_panel(USER):
     tk.Label(InputValueFrame,text="Email:",font=('Ariel',20)).grid(row=3,column=0,padx=10,pady=10)
     Email_Entry=tk.Entry(InputValueFrame,font=('Ariel',18))
     Email_Entry.grid(row=3,column=1,padx=10,pady=10)
-    
+    state_val = "disabled" if USER[3] == "staff" else "normal"
     CRUD_operation_button_frame=tk.Frame(window,height=80)
     CRUD_operation_button_frame.pack(fill='x')
     
@@ -114,7 +114,7 @@ def Customer_management_panel(USER):
     Update_button=tk.Button(CRUD_operation_button_frame,text='Update',font=('Ariel',15),width=10,command=Updatefunc)
     Update_button.pack(side='left',padx=30)
     
-    Delete_button=tk.Button(CRUD_operation_button_frame,text='Delete',font=('Ariel',15),width=10,command=Deletefunc)
+    Delete_button=tk.Button(CRUD_operation_button_frame,text='Delete',font=('Ariel',15),width=10,command=Deletefunc,state=state_val)
     Delete_button.pack(side='left',padx=30)
     
     Clear_button=tk.Button(CRUD_operation_button_frame,text='Clear',font=('Ariel',15),width=10,command=Clearfunc)

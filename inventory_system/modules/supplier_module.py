@@ -104,7 +104,7 @@ def Supplier_management_panel(USER):
     tk.Label(InputValueFrame,text='Address:',font=('Ariel',20),width=15,anchor='e').grid(row=4,column=0,padx=10,pady=10)
     Address_entry=tk.Entry(InputValueFrame,font=('Ariel',18))
     Address_entry.grid(row=4,column=1,padx=10,pady=10)
-    
+    state_val = "disabled" if USER[3] == "staff" else "normal"
     CRUD_operation_button_frame=tk.Frame(Frame_for_input_and_button)
     CRUD_operation_button_frame.grid(row=0,column=1,padx=40)
     
@@ -114,7 +114,7 @@ def Supplier_management_panel(USER):
     Update_button=tk.Button(CRUD_operation_button_frame,text='Update',font=('Ariel',15),width=10,command=Updatefunc)
     Update_button.pack(padx=30,pady=20)
     
-    Delete_button=tk.Button(CRUD_operation_button_frame,text='Delete',font=('Ariel',15),width=10,command=Deletefunc)
+    Delete_button=tk.Button(CRUD_operation_button_frame,text='Delete',font=('Ariel',15),width=10,command=Deletefunc,state=state_val)
     Delete_button.pack(padx=30,pady=20)
     
     Clear_button=tk.Button(CRUD_operation_button_frame,text='Clear',font=('Ariel',15),width=10,command=Clearfunc)

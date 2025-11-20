@@ -27,6 +27,9 @@ def login(window):
             
             elif USER[3]=='staff':
                 messagebox.showinfo("Login Success", "Welcome staff!")
+                window.destroy()
+                Dasboard(USER)
+                
             else:
                 messagebox.showinfo("Login Failed", "Invalid username or password")
         except:

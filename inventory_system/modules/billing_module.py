@@ -23,7 +23,7 @@ def BillingAndPOS_panel(USER):
         Total_amount=Discount_amount(int(Total_amount))
         Total_amount=Taxfunc(Total_amount)
         Total(Total_amount)
-        ClearFunc()
+        ClearFuncLHS()
         TableLoad()
         print(data)
     
@@ -33,22 +33,28 @@ def BillingAndPOS_panel(USER):
     def GenerateInvoiceFunc():
         from utils.simple_invoice import generate_simple_invoice
 
-        items = [
-        {"name": "Sugar", "qty": 2, "price": 40, "total": 80},
-        {"name": "Tea", "qty": 1, "price": 120, "total": 120}
-        ]
-
+        items = products
+        items=[{'name':p[0],'qty':p[4],'price':p[2],'total':p[2]*p[4]}for p in products]
+        print(items)
+        CustomerName=""
+        from database.db_connection import create_connection
+        conn=create_connection()
+        cursor=conn.cursor()
+        cursor.execute("select customer_name  from customer_management where Customer_id = %s",(Customerid.get(),))
+        CustomerName=cursor.fetchone()
+        conn.close()
+        print(CustomerName)
         file = generate_simple_invoice(
         invoice_id=101,
-        customer_name="Rahul Sharma",
+        customer_name=CustomerName[0],
         items=items,
-        subtotal=200,
-        tax=10,
-        grand_total=210
+        subtotal=Sub_total.cget("text"),
+        tax=Tax.cget("text"),
+        grand_total=TotalAmount.cget("text")
         )
 
         print("Invoice created:", file)
-
+        ClearFuncRHS()
 
     #-- END of Function --
     
@@ -85,9 +91,19 @@ def BillingAndPOS_panel(USER):
         from modules.dashboard import Dasboard
         Dasboard(USER)
         
-    def ClearFunc():
+    def ClearFuncLHS():
         select_product_by_id.delete(0,tk.END)
         Quantity_entry.delete(0,tk.END)
+        
+    def ClearFuncRHS():
+        Customerid.current(0)
+        Sub_total.configure(text="0.00")
+        Discount.configure(text="0.00")
+        Tax.configure(text="0.00")
+        TotalAmount.configure(text="0.00")
+        for item in Tree.get_children():
+            Tree.delete(item)
+        
     
     #--end of function--
 
@@ -196,26 +212,37 @@ def BillingAndPOS_panel(USER):
     TableLoad()
     Money_calculation = tk.Frame(right_panel, width=200, bg="white")
     Money_calculation.pack(side='left',padx=20, pady=20)
-
-
-    tk.Label(Money_calculation,text='Sub Total:',font=('Ariel', 14, 'bold'),bg='white',padx=5,pady=5).grid(row=0,column=0)
-    Sub_total=tk.Label(Money_calculation,text="0.00",font=('Ariel', 14, 'bold'),bg='white',padx=5,pady=5)
-    Sub_total.grid(row=0,column=1)
     
-    tk.Label(Money_calculation,text='Discount:',font=('Ariel', 14, 'bold'),bg='white',padx=5,pady=5).grid(row=1,column=0)
-    Discount=tk.Label(Money_calculation,text="0.00",font=('Ariel', 14, 'bold'),bg='white',padx=5,pady=5)
-    Discount.grid(row=1,column=1)   
+    from database.db_connection import create_connection
+    conn=create_connection()
+    cursor=conn.cursor()
+    cursor.execute("select category_id from category")
+    custid=cursor.fetchall()
+    conn.close()
 
-    tk.Label(Money_calculation,text='Tax:',font=('Ariel', 14, 'bold'),bg='white',padx=5,pady=5).grid(row=2,column=0)
-    Tax=tk.Label(Money_calculation,text="0.00",font=('Ariel', 14, 'bold'),bg='white',padx=5,pady=5)  
-    Tax.grid(row=2,column=1) 
+    tk.Label(Money_calculation,text="Select customer by id",font=('Ariel', 10, 'bold'),bg='white',padx=5,pady=5).grid(row=0,column=0)
+    Customerid=ttk.Combobox(Money_calculation,font=('Ariel', 10), values=custid, state='readonly')
+    Customerid.grid(row=0, column=1, padx=5, pady=8)
+    Customerid.current(0)
     
-    tk.Label(Money_calculation,text='Total:',font=('Ariel', 14, 'bold'),bg='white',padx=5,pady=5).grid(row=3,column=0)
-    TotalAmount=tk.Label(Money_calculation,text="0.00",font=('Ariel', 14, 'bold'),bg='white',padx=5,pady=5)  
-    TotalAmount.grid(row=3,column=1)  
+    tk.Label(Money_calculation,text='Sub Total:',font=('Ariel', 10, 'bold'),bg='white',padx=5,pady=5).grid(row=1,column=0)
+    Sub_total=tk.Label(Money_calculation,text="0.00",font=('Ariel', 10, 'bold'),bg='white',padx=5,pady=5)
+    Sub_total.grid(row=1,column=1)
+    
+    tk.Label(Money_calculation,text='Discount:',font=('Ariel', 10, 'bold'),bg='white',padx=5,pady=5).grid(row=2,column=0)
+    Discount=tk.Label(Money_calculation,text="0.00",font=('Ariel', 10, 'bold'),bg='white',padx=5,pady=5)
+    Discount.grid(row=2,column=1)   
+
+    tk.Label(Money_calculation,text='Tax:',font=('Ariel', 10, 'bold'),bg='white',padx=5,pady=5).grid(row=3,column=0)
+    Tax=tk.Label(Money_calculation,text="0.00",font=('Ariel', 10, 'bold'),bg='white',padx=5,pady=5)  
+    Tax.grid(row=3,column=1) 
+    
+    tk.Label(Money_calculation,text='Total:',font=('Ariel', 10, 'bold'),bg='white',padx=5,pady=5).grid(row=4,column=0)
+    TotalAmount=tk.Label(Money_calculation,text="0.00",font=('Ariel', 10, 'bold'),bg='white',padx=5,pady=5)  
+    TotalAmount.grid(row=4,column=1)  
     
     Generate_invoice=tk.Button(Money_calculation,text="Generate Invoice",font=('Ariel',14),command=GenerateInvoiceFunc) 
-    Generate_invoice.grid(row=4,column=1,columnspan=2,pady=10)
+    Generate_invoice.grid(row=5,column=1,columnspan=2,pady=10)
     window.mainloop()
 
 # BillingAndPOS_panel((1, 'Admin@gmail.com', '8097', 'admin'))

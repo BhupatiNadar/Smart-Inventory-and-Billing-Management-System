@@ -44,30 +44,6 @@ This application helps shops and businesses maintain Products, Suppliers, Custom
 | **PDF Generation** | ReportLab |
 | **DB Library** | mysql-connector-python |
 
-```
-"""
-Smart-Inventory-and-Billing-Management-System/
-│
-├── database/
-│ └── db_connection.py # MySQL connection
-│
-├── modules/
-│ ├── login.py # Login Page
-│ ├── dashboard.py # Home Dashboard
-│ ├── billing_module.py # POS Billing Module
-│ ├── product_module.py # Product CRUD
-│ ├── customer_module.py # Customer CRUD
-│ ├── supplier_module.py # Supplier CRUD
-│ ├── sales_report_module.py # Sales Reports
-│ ├── NewStaff_module.py # Add New Staff
-│ └── Back_module.py # Common Utilities
-│
-├── assets/ # Icons / Images (if any)
-├── invoice_*.pdf # Generated Invoices
-├── requirements.txt
-└── main.py # Application Entry Point
-```
-
 ### 📦 Installation
 ## 📍 Step 1: Clone the Repository
 git clone https://github.com/BhupatiNadar/Smart-Inventory-and-Billing-Management-System.git
@@ -96,3 +72,26 @@ You may modify or distribute it with proper credit.
 
 ## 📁 Project Structure
 
+```
+"""
+Smart-Inventory-and-Billing-Management-System/
+│
+├── database/
+│ └── db_connection.py # MySQL connection
+│
+├── modules/
+│ ├── login.py # Login Page
+│ ├── dashboard.py # Home Dashboard
+│ ├── billing_module.py # POS Billing Module
+│ ├── product_module.py # Product CRUD
+│ ├── customer_module.py # Customer CRUD
+│ ├── supplier_module.py # Supplier CRUD
+│ ├── sales_report_module.py # Sales Reports
+│ ├── NewStaff_module.py # Add New Staff
+│ └── Back_module.py # Common Utilities
+│
+├── assets/ # Icons / Images (if any)
+├── invoice_*.pdf # Generated Invoices
+├── requirements.txt
+└── main.py # Application Entry Point
+```

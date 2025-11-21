@@ -45,7 +45,7 @@ def NewStaff(window,USER):
     
     tk.Label(window, text="passward:", bg="#f0f0f0",
              font=("Arial", 15)).grid(row=2, column=0)
-    pass_entry = tk.Entry(window, font=("Ariel", 15))
+    pass_entry = tk.Entry(window, font=("Ariel", 15),show="*")
     pass_entry.grid(row=2, column=1, columnspan=2, padx=5, pady=8)
     
     category = ("admin", "staff")

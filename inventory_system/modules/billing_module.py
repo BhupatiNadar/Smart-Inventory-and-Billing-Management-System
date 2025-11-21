@@ -19,6 +19,7 @@ def BillingAndPOS_panel(USER):
         data=data +(int(Quantity_selected),)
         products.append(data)
         print(products)
+        conn.close()
         Total_amount=subtotal(products)
         Total_amount=Discount_amount(int(Total_amount))
         Total_amount=Taxfunc(Total_amount)
@@ -29,6 +30,51 @@ def BillingAndPOS_panel(USER):
     
     #--END of function
     
+            
+    #-- start of function sub_quantity() --
+    def sub_quantity():
+        from tkinter import messagebox
+        from database.db_connection import create_connection
+
+        conn=create_connection()
+        cursor=conn.cursor()
+        NewData=[]
+
+        for p in products:
+            cursor.execute("SELECT Product_stock FROM product WHERE Product_id = %s",(p[0],))
+            tempData=cursor.fetchone()  # (stock,)
+            tempData+=(p[4],)           # (stock, quantity_needed)
+            NewData.append(tempData)
+
+        conn.close()
+
+        # Check stock
+        for stock, needed in NewData:
+            if stock < needed:
+                messagebox.showinfo("Failed","Product stock is less than asked quantity")
+                return
+
+        # Update stock only if all products have enough quantity
+        conn=create_connection()
+        cursor=conn.cursor()
+        try:
+            for (stock, qty), p in zip(NewData, products):
+                product_id = p[0]
+                cursor.execute(
+                "UPDATE product SET Product_stock = Product_stock - %s WHERE Product_id = %s",
+                (qty, product_id)
+            )
+
+            conn.commit()
+
+        except Exception as e:
+            ("Error while updating quantity:", e)
+
+        finally:
+            conn.close()
+
+    #-- end of function
+    
     #--fuction for GenerateInvoiceFunc--
     def GenerateInvoiceFunc():
         try:
@@ -37,6 +83,7 @@ def BillingAndPOS_panel(USER):
             items = products
             items=[{'name':p[1],'qty':p[4],'price':p[2],'total':p[2]*p[4]}for p in products]
             print(items)
+            sub_quantity()
             CustomerName=""
             from database.db_connection import create_connection
             conn=create_connection()

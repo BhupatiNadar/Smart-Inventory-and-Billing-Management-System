@@ -44,7 +44,7 @@ This application helps shops and businesses maintain Products, Suppliers, Custom
 | **PDF Generation** | ReportLab |
 | **DB Library** | mysql-connector-python |
 
----
+```
 """
 Smart-Inventory-and-Billing-Management-System/
 │
@@ -66,7 +66,7 @@ Smart-Inventory-and-Billing-Management-System/
 ├── invoice_*.pdf # Generated Invoices
 ├── requirements.txt
 └── main.py # Application Entry Point
-"""
+```
 
 ###📦 Installation
 ##📍 Step 1: Clone the Repository

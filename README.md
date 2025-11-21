@@ -68,26 +68,26 @@ Smart-Inventory-and-Billing-Management-System/
 └── main.py # Application Entry Point
 ```
 
-###📦 Installation
-##📍 Step 1: Clone the Repository
+### 📦 Installation
+## 📍 Step 1: Clone the Repository
 git clone https://github.com/BhupatiNadar/Smart-Inventory-and-Billing-Management-System.git
 cd Smart-Inventory-and-Billing-Management-System
 
-##📍 Step 2: Install Required Libraries
+## 📍 Step 2: Install Required Libraries
 pip install -r requirements.txt
 
-##📍 Step 3: Run the Application
+## 📍 Step 3: Run the Application
 python main.py
 
-###📝 requirements.txt
+### 📝 requirements.txt
 mysql-connector-python
 reportlab
 
-###🤝 Contributing
+### 🤝 Contributing
 
 Feel free to fork this repository and submit pull requests to enhance features or UI.
 
-###📄 License
+### 📄 License
 
 This project is intended for educational and business use.
 You may modify or distribute it with proper credit.
